@@ -1,21 +1,80 @@
 <template>
     <div class="pagination">
         <ul>
-           <li>上一页</li>
-           <li>下一页</li>
-            <!-- <li v-show="current != 1" @click="current-- && goto(current)" ><a href="#">上一页</a></li>
-            <li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
-              <a href="#" >{{index}}</a>
-            </li>
-            <li v-show="allpage != current && allpage != 0 " @click="current++ && goto(current++)"><a href="#" >下一页</a></li> -->
+           <li v-show="this.previous != null" @click="goPage(previous)"><a href="#">上一页</a></li>
+           <li v-for="page in pageNum" @click="goPage(baseUrl+page)" :class="{'current': page === currentPage}"><a href="#">{{ page }}</a></li>
+           <li v-show="this.next != null" @click="goPage(next)"><a href="#">下一页</a></li>
         </ul>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+    const defaultPageSize = 15;
+
     export default {
+        data() {
+            return {
+                baseUrl: 'http://hhuui1.lihulab.net/api/problem/all?page=',
+                currentPage: 1
+            };
+        },
+        props: {
+            count: {
+                type: Number,
+                default: 0
+            },
+            previous: {
+                type: String,
+                default: null
+            },
+            next: {
+                type: String,
+                default: null
+            }
+        },
+        computed: {
+            pageNum() {
+                return this.count % defaultPageSize;
+            }
+        },
+        methods: {
+            goPage(pageurl) {
+                console.log(pageurl);
+                if (pageurl.charAt(pageurl.length - 1) === 'l') {
+                    this.currentPage = 1;
+                } else {
+                    this.currentPage = pageurl.charAt(pageurl.length - 1) - '0';
+                }
+                console.log(this.currentPage);
+                this.$emit('gopage', pageurl);
+            }
+        }
     };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+    .pagination
+        position: relative
+        margin-top: 20px
+        ul
+            position: absolute
+            right: 0
+            li
+                display: inline-block
+                margin: 0 5px
+                a
+                    display: inline-block
+                    padding: 7px 10px
+                    border: 1px solid #ddd
+                    background: #fff
+                    color: #0E90D2
+                    font-size: 12px
+                    cursor: pointer
+                    &:hover
+                        background: #eee
+                &.current
+                    a
+                        background: #0E90D2
+                        color: #fff
+
 </style>

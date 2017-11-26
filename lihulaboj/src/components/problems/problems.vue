@@ -20,7 +20,7 @@
                 </tbody>
             </table>
         </div>
-        <!-- <pagination :count="this.count"></pagination> -->
+        <pagination @gopage="goPage" :count="this.count" :previous="this.previous" :next="this.next"></pagination>
     </div>
 </template>
 
@@ -36,6 +36,8 @@
             return {
                 problems: {},
                 count: 0,
+                previous: '',
+                next: '',
                 state: Accepted
             };
         },
@@ -44,8 +46,9 @@
                 response = response.body;
                 this.problems = response.results;
                 this.count = response.count;
-                console.log(this.problems);
-                console.log(this.count);
+                this.previous = response.previous;
+                this.next = response.next;
+                console.log(response);
             });
         },
         components: {
@@ -58,6 +61,16 @@
                 } else {
                     return ((problem.pass_num / problem.total_num) * 100).toFixed(0);
                 }
+            },
+            goPage(page) {
+                this.$http.get(page).then((response) => {
+                    response = response.body;
+                    this.problems = response.results;
+                    this.count = response.count;
+                    this.previous = response.previous;
+                    this.next = response.next;
+                    console.log(response);
+                });
             }
         },
         computed: {
