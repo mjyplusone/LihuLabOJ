@@ -15,7 +15,7 @@
                         <td class="state accepted">{{ showState }}</td>
                         <td><a href="">{{ problem.id }}</a></td>
                         <td><a href="">{{ problem.title }}</a></td>
-                        <td>{{ problemRate(problem) }}% ({{ problem.pass_num }} / {{ problem.total_num }})</td>
+                        <td><span>{{ problemRate(problem) }}% ({{ problem.pass_num }} / {{ problem.total_num }})</span><span class="ratebar"><span class="hotbar" :style="'width:'+ 200*(problemRate(problem)/100) + 'px'"></span></span></td>
                     </tr>
                 </tbody>
             </table>
@@ -128,13 +128,32 @@
                             width: 30px
                         td:nth-child(2)
                             width: 50px
+                        td:nth-child(4)
+                            width: 400px
                             a
                                 font-weight: 700
+                        span
+                            display: inline-block
+                            width: 100px
+                        .ratebar  
+                            position: relative
+                            display: inline-block
+                            width: 200px
+                            height: 4px
+                            margin-left: 10px
+                            background: #dcdcdc
+                            @media only screen and (max-width: 400px)
+                                display: none
+                            .hotbar
+                                position: absolute
+                                display: inline-block
+                                height: 100%
+                                background: #7fcbf0
                     tr:nth-child(1)
                         border-top: 2px solid #dddddd
                     tr:nth-child(odd)
                         background: #f9f9f9;
                     tr:nth-child(even)
-                        background: #fff;        
+                        background: #fff;     
 
 </style>

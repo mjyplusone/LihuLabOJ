@@ -2,7 +2,7 @@
     <div class="pagination">
         <ul>
            <li v-show="this.previous != null" @click="goPage(previous)"><a href="#">上一页</a></li>
-           <li v-for="page in pageNum" @click="goPage(baseUrl+page)" :class="{'current': page === currentPage}"><a href="#">{{ page }}</a></li>
+           <li v-for="page in pageNum" v-show="page <= currentPage+3 && page >= currentPage-3" @click="goPage(baseUrl+page)" :class="{'current': page === currentPage}"><a href="#">{{ page }}</a></li>
            <li v-show="this.next != null" @click="goPage(next)"><a href="#">下一页</a></li>
         </ul>
     </div>

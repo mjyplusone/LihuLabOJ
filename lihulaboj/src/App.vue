@@ -87,6 +87,8 @@
                 & > a
                   font-size: 13px
                   color: #777777
+                  &:hover
+                    color: #333333
             .tab-right
               flex: 0 0 80px
               // background: blue
