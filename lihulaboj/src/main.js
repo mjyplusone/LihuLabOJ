@@ -11,6 +11,8 @@ import submission from 'components/submission/submission.vue';
 import ranking from 'components/ranking/ranking.vue';
 import help from 'components/help/help.vue';
 
+import './common/stylus/index.styl';
+
 Vue.config.productionTip = false;
 
 Vue.use(VueResource);

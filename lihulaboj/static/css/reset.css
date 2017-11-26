@@ -48,6 +48,10 @@ table {
 }
 
 /* custom */
+html, body, #app{
+    height: 100%;
+}
+
 a {
     color: #7e8c8d;
     text-decoration: none;
