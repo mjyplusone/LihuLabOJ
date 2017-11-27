@@ -6,6 +6,7 @@ import App from './App';
 import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 
+import index from 'components/index/index.vue';
 import problems from 'components/problems/problems.vue';
 import submission from 'components/submission/submission.vue';
 import ranking from 'components/ranking/ranking.vue';
@@ -19,7 +20,7 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/', component: problems},
+  {path: '/', component: index},
   {path: '/problems', component: problems},
   {path: '/submission', component: submission},
   {path: '/ranking', component: ranking},

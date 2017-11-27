@@ -22,7 +22,7 @@
             </table>
         </div>
         <pagination @gopage="goPage" :count="this.count" :previous="this.previous" :next="this.next"></pagination>
-    </div>
+    </div>  
     <problem ref="problem" :id="selectId"></problem>
 </div>
 </template>
@@ -38,24 +38,42 @@
     export default {
         data() {
             return {
-                problems: {},
-                count: 0,
-                previous: '',
-                next: '',
+                // problems: [],
+                // count: 0,
+                // previous: '',
+                // next: '',
                 selectId: 0,
                 state: Accepted
             };
         },
-        created() {
-            this.$http.get('http://hhuui1.lihulab.net/api/problem/all').then((response) => {
-                response = response.body;
-                this.problems = response.results;
-                this.count = response.count;
-                this.previous = response.previous;
-                this.next = response.next;
-                console.log(response);
-            });
+        props: {
+            problems: {
+                type: Array,
+                default: []
+            },
+            count: {
+                type: Number,
+                default: 0
+            },
+            previous: {
+                type: String,
+                default: ''
+            },
+            next: {
+                type: String,
+                default: ''
+            }
         },
+        // created() {
+        //     this.$http.get('http://hhuui1.lihulab.net/api/problem/all').then((response) => {
+        //         response = response.body;
+        //         this.problems = response.results;
+        //         this.count = response.count;
+        //         this.previous = response.previous;
+        //         this.next = response.next;
+        //         console.log(response);
+        //     });
+        // },
         components: {
             pagination,
             problem
@@ -71,16 +89,20 @@
             goPage(page) {
                 this.$http.get(page).then((response) => {
                     response = response.body;
-                    this.problems = response.results;
-                    this.count = response.count;
-                    this.previous = response.previous;
-                    this.next = response.next;
+                    // 父组件传过来的值不能直接在子组件中修改
+                    this.$emit('changepage', response);
+                    // this.problems = response.results;
+                    // this.count = response.count;
+                    // this.previous = response.previous;
+                    // this.next = response.next;
                     console.log(response);
                 });
             },
             selectProblem(id) {
                 this.selectId = id;
                 this.$refs.problem.show();
+                // 告知父组件在单个题目界面
+                this.$emit('inproblem');
             }
         },
         computed: {
@@ -99,10 +121,12 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
     .problems
+        position: relative 
         width: 1200px
         margin: 0 auto
         padding: 20px 45px
         box-sizing: border-box
+        // background: red
         @media only screen and (max-width: 1200px)
             width: 100%
         .problem-list

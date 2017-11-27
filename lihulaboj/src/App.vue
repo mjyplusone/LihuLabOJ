@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>  
-        <router-view></router-view>
+        <router-view @changepage="changePage" @inproblem="inProblem" :problems="problems" :count="count" :previous="previous" :next="next"></router-view>
       </div>
     </div>
     <div class="footer">
@@ -38,20 +38,45 @@
     // name: 'app'
     data() {
       return {
-        all: {}
+        // all: {},
+        problems: [],
+        count: 0,
+        previous: '',
+        next: '',
+        // 是否在在单个题目界面标志位
+        inproblem: false
       };
     },
     created() {
       this.$http.get('http://hhuui1.lihulab.net/api/problem/all').then((response) => {
         response = response.body;
+        this.problems = response.results;
+        this.count = response.count;
+        this.previous = response.previous;
+        this.next = response.next;
         console.log(response);
       });
     },
     methods: {
       flushCom() {
-        // router是路由实例,例如:var router = new Router({})
-        // router.go(n)是路由的一个方法，意思是在history记录中前进或者后退多少步，0就表示还是当前，类似window.history.go(n)
-        this.$router.go(0);
+        // 只有在单个题目界面时，点击题目tab才执行刷新
+        if (this.inproblem === true) {
+            // router是路由实例,例如:var router = new Router({})
+            // router.go(n)是路由的一个方法，意思是在history记录中前进或者后退多少步，0就表示还是当前，类似window.history.go(n)
+            // 在单个题目界面时，点击题目tab，由于仍然在problem组件，路由未发生变化，组件不会刷新，所以这里手动刷新界面，回到题目列表界面
+            this.$router.go(0);
+            this.inproblem = false;
+        }
+      },
+      inProblem() {
+        // 是否在在单个题目界面标志位
+        this.inproblem = true;
+      },
+      changePage(response) {
+        this.problems = response.results;
+        this.count = response.count;
+        this.previous = response.previous;
+        this.next = response.next;
       }
     }
   };
@@ -63,6 +88,7 @@
     .content-wrapper
       min-height: 100%
       height: auto
+      // background: red
       .content
         padding-bottom: 50px
         .tab-wrapper

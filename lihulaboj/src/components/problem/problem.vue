@@ -100,10 +100,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
     .problem
         position: absolute
-        top: 47px
+        top: 46px
         left: 0
         right: 0
-        bottom: 0
+        bottom: -200px    // 为了手机端完全盖住problems列表(或者这里可以针对手机端写?)
         background: #ffffff
         .problem-wrapper
             width: 1200px
