@@ -7,7 +7,7 @@
             <div class="tab-left">
               <div class="tab-item icon"><a href="/">LihuLab OJ</a></div>
               <div class="tab-item">
-                <router-link to="/problems">题目</router-link>
+                <router-link to="/problems" @click.native="flushCom">题目</router-link>
               </div>
               <div class="tab-item">
                 <router-link to="/submission">提交</router-link>
@@ -46,6 +46,13 @@
         response = response.body;
         console.log(response);
       });
+    },
+    methods: {
+      flushCom() {
+        // router是路由实例,例如:var router = new Router({})
+        // router.go(n)是路由的一个方法，意思是在history记录中前进或者后退多少步，0就表示还是当前，类似window.history.go(n)
+        this.$router.go(0);
+      }
     }
   };
 </script>

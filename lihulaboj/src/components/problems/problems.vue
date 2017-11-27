@@ -1,4 +1,5 @@
 <template>
+<div class="problems-root">
     <div class="problems">
         <div class="problem-list">
             <table>
@@ -13,8 +14,8 @@
                 <tbody>
                     <tr v-for="problem in problems">
                         <td class="state accepted">{{ showState }}</td>
-                        <td><a href="">{{ problem.id }}</a></td>
-                        <td><a href="">{{ problem.title }}</a></td>
+                        <td><a href="" @click.prevent="selectProblem(problem.id)">{{ problem.id }}</a></td>
+                        <td><a href="" @click.prevent="selectProblem(problem.id)">{{ problem.title }}</a></td>
                         <td><span>{{ problemRate(problem) }}% ({{ problem.pass_num }} / {{ problem.total_num }})</span><span class="ratebar"><span class="hotbar" :style="'width:'+ 200*(problemRate(problem)/100) + 'px'"></span></span></td>
                     </tr>
                 </tbody>
@@ -22,10 +23,13 @@
         </div>
         <pagination @gopage="goPage" :count="this.count" :previous="this.previous" :next="this.next"></pagination>
     </div>
+    <problem ref="problem" :id="selectId"></problem>
+</div>
 </template>
 
 <script type="text/ecmascript-6">
     import pagination from 'components/pagination/pagination.vue';
+    import problem from 'components/problem/problem.vue';
 
     const Accepted = 0;
     const Failed = 1;
@@ -38,6 +42,7 @@
                 count: 0,
                 previous: '',
                 next: '',
+                selectId: 0,
                 state: Accepted
             };
         },
@@ -52,7 +57,8 @@
             });
         },
         components: {
-            pagination
+            pagination,
+            problem
         },
         methods: {
             problemRate(problem) {
@@ -71,6 +77,10 @@
                     this.next = response.next;
                     console.log(response);
                 });
+            },
+            selectProblem(id) {
+                this.selectId = id;
+                this.$refs.problem.show();
             }
         },
         computed: {
@@ -142,7 +152,7 @@
                             height: 4px
                             margin-left: 10px
                             background: #dcdcdc
-                            @media only screen and (max-width: 400px)
+                            @media only screen and (max-width: 450px)
                                 display: none
                             .hotbar
                                 position: absolute

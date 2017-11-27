@@ -19,6 +19,7 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 const routes = [
+  {path: '/', component: problems},
   {path: '/problems', component: problems},
   {path: '/submission', component: submission},
   {path: '/ranking', component: ranking},
