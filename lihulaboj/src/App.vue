@@ -10,13 +10,13 @@
                 <router-link to="/problems" @click.native="flushCom">题目</router-link>
               </div>
               <div class="tab-item">
-                <router-link to="/submission">提交</router-link>
+                <router-link to="/submission" @click.native="setInproblem">提交</router-link>
               </div>
               <div class="tab-item">
-                <router-link to="/ranking">排名</router-link>
+                <router-link to="/ranking" @click.native="setInproblem">排名</router-link>
               </div>
               <div class="tab-item">
-                <router-link to="/help">帮助</router-link>
+                <router-link to="/help" @click.native="setInproblem">帮助</router-link>
               </div>
             </div>
             <div class="tab-right">
@@ -71,6 +71,10 @@
       inProblem() {
         // 是否在在单个题目界面标志位
         this.inproblem = true;
+      },
+      setInproblem() {
+        // 点到其他tab的时候，还原标志位
+        this.inproblem = false;
       },
       changePage(response) {
         this.problems = response.results;
