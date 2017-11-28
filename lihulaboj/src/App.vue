@@ -82,7 +82,13 @@
         this.previous = response.previous;
         this.next = response.next;
       }
+    },
+    watch: {
+      '$route' (to, from) {
+        console.log('to:' + to.path);
+        console.log('from:' + from.path);
     }
+}
   };
 </script>
 
