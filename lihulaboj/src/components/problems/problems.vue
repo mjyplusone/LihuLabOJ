@@ -12,9 +12,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="problem in problems">
+                    <tr v-for="(problem, index) in problems">
                         <td class="state accepted">{{ showState }}</td>
-                        <td><a href="" @click.prevent="selectProblem(problem.id)">{{ problem.id }}</a></td>
+                        <td><a href="" @click.prevent="selectProblem(problem.id)">{{ (currentPage - 1)  *15 + index + 1 }}</a></td>
                         <td><a href="" @click.prevent="selectProblem(problem.id)">{{ problem.title }}</a></td>
                         <td><span>{{ problemRate(problem) }}% ({{ problem.pass_num }} / {{ problem.total_num }})</span><span class="ratebar"><span class="hotbar" :style="'width:'+ 200*(problemRate(problem)/100) + 'px'"></span></span></td>
                     </tr>
@@ -43,6 +43,7 @@
                 // previous: '',
                 // next: '',
                 selectId: 0,
+                currentPage: 1,
                 state: Accepted
             };
         },
@@ -86,8 +87,8 @@
                     return ((problem.pass_num / problem.total_num) * 100).toFixed(0);
                 }
             },
-            goPage(page) {
-                this.$http.get(page).then((response) => {
+            goPage(pageurl, currentpage) {
+                this.$http.get(pageurl).then((response) => {
                     response = response.body;
                     // 父组件传过来的值不能直接在子组件中修改
                     this.$emit('changepage', response);
@@ -97,6 +98,8 @@
                     // this.next = response.next;
                     console.log(response);
                 });
+                this.currentPage = currentpage;
+                console.log(this.currentPage);
             },
             selectProblem(id) {
                 this.selectId = id;

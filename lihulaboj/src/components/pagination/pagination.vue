@@ -46,7 +46,7 @@
                     this.currentPage = pageurl.charAt(pageurl.length - 1) - '0';
                 }
                 console.log(this.currentPage);
-                this.$emit('gopage', pageurl);
+                this.$emit('gopage', pageurl, this.currentPage);
             }
         }
     };
